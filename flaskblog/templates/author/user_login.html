@@ -1,6 +1,7 @@
+{% set show_navbar = False %}
+{% set show_footer = False %}
 {% extends 'main/base.html' %}
 {% block content %}
-
 <!-- Toast container with fixed positioning -->
 <div class="toast-container position-fixed top-1 end-0 p-3">
     {% for message in get_flashed_messages(with_categories=true) %}
@@ -22,11 +23,16 @@
 </div>
 
 <!-- Form Container -->
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
+<div class="container d-flex justify-content-center align-items-center min-vh-100" style="font-size: 14px;">
     <div class="row w-100">
         <div class="col-md-6 col-lg-4 mx-auto">
             <div class="card p-4">
-                <h4 class="card-title text-center mb-4">Sign In</h4>
+               <center> <a href="{{ url_for('main.home_page')}}"><img src="https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=140&amp;height=69&amp;name=Medium%20size%20with%20Tag%20line.png"
+            loading="eager" alt="Medium size with Tag line" height="45" width="90"
+            srcset="https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=70&amp;height=35&amp;name=Medium%20size%20with%20Tag%20line.png 70w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=140&amp;height=69&amp;name=Medium%20size%20with%20Tag%20line.png 140w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=210&amp;height=104&amp;name=Medium%20size%20with%20Tag%20line.png 210w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=280&amp;height=138&amp;name=Medium%20size%20with%20Tag%20line.png 280w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=350&amp;height=173&amp;name=Medium%20size%20with%20Tag%20line.png 350w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=420&amp;height=207&amp;name=Medium%20size%20with%20Tag%20line.png 420w"
+            sizes="(max-width: 140px) 100vw, 140px" alt="Logo" width="30" height="30"
+            class="d-inline-block align-text-top"></center></a><br>
+                <h5 class="card-title text-center mb-4">Welcome to OSOL Blogs</h5>
                 <form method="POST">
                     {{ form.hidden_tag() }}
                     <div class="mb-3">
@@ -56,14 +62,14 @@
                             {% endif %}
                         </div>
                     </div>
-                    <p class="text-end" style="font-size: 12px;">
+                    <p class="text-end fw-normal" style="font-size: 14px;">
                         <a href="{{ url_for('author.reset_request') }}">Forgot password?</a>
                     </p>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </div>
-                    <p class="text-start" style="font-size: 12px;">Don't have an account?
-                        <a href="{{ url_for('author.name') }}">Sign Up!</a>
+                    <p class="text-center" style="font-size: 14px;">Don't have an account?
+                        <a href="{{ url_for('author.name') }}">Sign Up</a>
                     </p>
                 </form>
             </div>
@@ -110,6 +116,17 @@
         toast.show();  // Show the toast with fade-in effect
         return toast;
     });
+
+    
 </script>
+<style>
+    .form-label {
+    font-size: 14px;
+}
+::placeholder {
+    font-size: 14px;
+    color: #F4F6FB;
+}
+</style>
 
 {% endblock %}

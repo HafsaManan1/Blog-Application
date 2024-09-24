@@ -122,3 +122,4 @@ def search():
             flash("Please enter a search term","warning")
             return redirect(url_for('blog.posts'))
     return redirect(url_for('blog.posts'))
+

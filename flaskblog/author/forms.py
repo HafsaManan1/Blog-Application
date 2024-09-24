@@ -29,7 +29,7 @@ class NameForm(FlaskForm):
 
 class RestRequestForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email(), Length(max=100)])
-    submit = SubmitField("Reset Password")
+    submit = SubmitField("Send Reset Link")
 
 class RestPasswordForm(FlaskForm):
     password = PasswordField('New Password', validators=[

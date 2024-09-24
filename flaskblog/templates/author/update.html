@@ -1,5 +1,8 @@
+{% set show_navbar = True %}
+{% set show_footer = True %}
 {% extends 'main/base.html'%}
 {% block content %}
+<!-- Toast container for messages -->
 <div class="toast-container position-fixed top-1 end-0 p-3">
   {% for message in get_flashed_messages(with_categories=true) %}
   <div class="toast align-items-center text-white {{ 'bg-success' if message[0] == 'success' else '' }}
@@ -19,42 +22,92 @@
   {% endfor %}
 </div>
 
+<!-- Update Profile Form -->
 <div class="container my-4">
   <h3>Update Profile</h3>
-<br>
-<form action="/update/{{name_to_update.id}}" method="POST" enctype="multipart/form-data">
-  {{ form.hidden_tag() }}
-
-  {{ form.name.label(class="form-label") }}<span style="color: red;">*</span>
-  {{ form.name(class="form-control", value=name_to_update.name) }}
   <br>
+  <form action="/update/{{name_to_update.id}}" method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
 
-  {{ form.username.label(class="form-label") }}<span style="color: red;">*</span>
-  {{ form.username(class="form-control", value=name_to_update.username) }}
-  <br>
+    <!-- Name Field -->
+    <div class="mb-3">
+      {{ form.name.label(class="form-label") }}<span style="color: red;">*</span>
+      {{ form.name(class="form-control", value=name_to_update.name) }}
+      {% if form.name.errors %}
+      <div class="text-danger" style="font-size: 10px;">
+        {% for error in form.name.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
 
-  {{ form.email.label(class="form-label") }}<span style="color: red;">*</span>
-  {{ form.email(class="form-control", value=name_to_update.email) }}
-  <br>
+    <!-- Username Field -->
+    <div class="mb-3">
+      {{ form.username.label(class="form-label") }}<span style="color: red;">*</span>
+      {{ form.username(class="form-control", value=name_to_update.username) }}
+      {% if form.username.errors %}
+      <div class="text-danger" style="font-size: 10px;">
+        {% for error in form.username.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
 
-  {{ form.bio.label(class="form-label") }}
-  <textarea name="bio" class="form-control">{{name_to_update.bio}}</textarea>
-  <br>
+    <!-- Email Field -->
+    <div class="mb-3">
+      {{ form.email.label(class="form-label") }}<span style="color: red;">*</span>
+      {{ form.email(class="form-control", value=name_to_update.email) }}
+      {% if form.email.errors %}
+      <div class="text-danger" style="font-size: 10px;">
+        {% for error in form.email.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
 
-  {{ form.profile_pic.label(class="form-label") }}
-  {{ form.profile_pic(class="form-control") }}
-  <br>
+    <!-- Bio Field -->
+    <div class="mb-3">
+      {{ form.bio.label(class="form-label") }}
+      <textarea name="bio" class="form-control">{{name_to_update.bio}}</textarea>
+    </div>
 
-  {{ form.submit(class="btn btn-outline-primary") }}
-</form>
+    <!-- Profile Picture Field -->
+    <div class="mb-3">
+      {{ form.profile_pic.label(class="form-label") }}
+      {{ form.profile_pic(class="form-control") }}
+    </div>
+
+    <!-- Submit Button -->
+    <div class="mb-3">
+      <p class="text-end">
+      {{ form.submit(class="btn btn-primary", value="Update") }}</p>
+    </div>
+  </form>
 </div>
+
 <script>
   // Initialize and show the toasts with smooth animation and auto-dismiss after 5 seconds
   var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-    var toastList = toastElList.map(function (toastEl) {
-        var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-        toast.show();  // Show the toast with fade-in effect
-        return toast;
-    });
+  var toastList = toastElList.map(function (toastEl) {
+    var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
+    toast.show();  // Show the toast with fade-in effect
+    return toast;
+  });
 </script>
+
+<style>
+  .form-label {
+    font-size: 14px;  /* Set font size for labels */
+  }
+  ::placeholder {
+    font-size: 14px;  /* Set font size for placeholders */
+    color: #F4F6FB;   /* Placeholder color */
+  }
+  .text-danger {
+    font-size: 10px;  /* Error messages font size */
+  }
+</style>
 {% endblock %}

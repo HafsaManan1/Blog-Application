@@ -1,3 +1,5 @@
+{% set show_navbar = True %}
+{% set show_footer = True %}
 {% extends 'main/base.html'%}
 {% block content %}
 <!-- Toast container with fixed positioning -->
@@ -26,13 +28,13 @@
   {{ form.hidden_tag() }}
 
   {{ form.title.label(class="form-label") }}<span style="color: red;">*</span>
-  {{ form.title(class="form-control") }}
+  {{ form.title(class="form-control",placeholder="Title") }}
   <br>
   {{ form.content.label(class="form-label") }}<span style="color: red;">*</span>
-  {{ form.content(class="form-control", rows = "5") }}
+  {{ form.content(class="form-control", rows = "5", placeholder="Write something...") }}
   <br>
-  
-  {{ form.submit(class="btn btn-outline-primary") }}
+  <p class="text-end">
+  {{ form.submit(class="btn btn-primary",value="Post Blog") }}</p>
 
 </form>
 {{ckeditor.load()}}

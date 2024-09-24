@@ -1,3 +1,5 @@
+{% set show_navbar = True %}
+{% set show_footer = True %}
 {% extends 'main/base.html'%}
 {% block content %}
 <div class="toast-container position-fixed top-1 end-0 p-3">
@@ -28,8 +30,8 @@
     {{ form.content.label(class="form-label") }}
     {{ form.content(class="form-control", rows = "5") }}
     <br>
-    
-    {{ form.submit(class="btn btn-outline-success") }}
+    <p class="text-end">
+    {{ form.submit(class="btn btn-primary") }}</p>
   
   </form>
   {{ckeditor.load()}}

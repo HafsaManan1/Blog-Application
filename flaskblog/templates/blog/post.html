@@ -1,7 +1,9 @@
+{% set show_navbar = True %}
+{% set show_footer = True %}
 {% extends 'main/base.html'%}
 {% block content %}
 <!-- Toast container with fixed positioning -->
-<div class="toast-container">
+<div class="toast-container position-fixed top-1 end-0 p-3">
   {% for message in get_flashed_messages(with_categories=true) %}
   <div class="toast align-items-center text-white {{ 'bg-success' if message[0] == 'success' else '' }}
                {{ 'bg-danger' if message[0] == 'error' else '' }}
@@ -23,6 +25,25 @@
 
 <div class="container my-4">
   <div class="shadow p-3 mb-5 bg-body rounded">
+    <p class="d-flex justify-content-between">
+      <!-- Left aligned 'Back' button -->
+      <a href="{{ url_for('blog.posts') }}" class='btn'>
+          <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      
+      <!-- Right aligned buttons (Edit and Delete) -->
+      <span>
+          {% if post.poster_id == current_user.id %}
+          <a href="{{ url_for('blog.edit_post', id=post.id) }}" class="btn">
+              <i class="fa-regular fa-pen-to-square"></i>
+          </a>
+          <a href="{{ url_for('blog.delete_post', id=post.id) }}" class="btn">
+              <i class="fa-solid fa-trash"></i>
+          </a>
+          {% endif %}
+      </span>
+  </p>
+  
       <h1>{{ post.title }}</h1>
       Blog by: {{ post.poster.username }}<br>
       Published on: {{ post.date_posted.date() }}<br>
@@ -33,11 +54,7 @@
       </div>
       <br>
   </div>
-  <a href="{{ url_for('blog.posts') }}" class='btn btn-outline-secondary'>Back to Blogs</a>
-  {% if post.poster_id == current_user.id %}
-      <a href="{{ url_for('blog.edit_post', id=post.id) }}" class='btn btn-outline-secondary'>Edit Post</a>
-      <a href="{{ url_for('blog.delete_post', id=post.id) }}" class='btn btn-outline-danger'>Delete Post</a>
-  {% endif %}
+
 </div>
 
 <!-- Add custom CSS for responsive images -->
@@ -49,7 +66,7 @@
 </style>
 <div class="container my-4">
   <!-- Comment Form -->
-  <h3 class="mb-4">Leave a Comment</h3>
+  <h4 class="mb-4">Leave a Comment</h4>
 
   <form action="{{ url_for('blog.post', id=post.id) }}" method="POST">
     {{ form.hidden_tag() }}
@@ -62,7 +79,7 @@
   </form>
 
   <!-- Comments List -->
-  <h3 class="my-4">Comments</h3>
+  <h4 class="my-4">Comments</h4>
   <div class="list-group">
     {% for comment in comments %}
     <div class="list-group-item mb-3">
@@ -83,5 +100,5 @@
       return toast;
   });
   </script>
-  
+
 {% endblock %}

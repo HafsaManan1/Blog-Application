@@ -1,3 +1,5 @@
+{% set show_navbar = False %}
+{% set show_footer = False %}
 {% extends 'main/base.html' %}
 {% block content %}
 
@@ -21,8 +23,9 @@
     {% endfor %}
 </div>
 <br><br>
+
 <!-- Form Container -->
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
+<div class="container d-flex justify-content-center align-items-center min-vh-100" style="font-size: 14px;">
     <div class="row w-100">
         <div class="col-md-6 col-lg-4 mx-auto">
             <div class="card p-4">
@@ -68,7 +71,7 @@
 
                     <div class="mb-3">
                         {{ form.bio.label(class="form-label") }}
-                        {{ form.bio(class="form-control", placeholder="Bio", id="bioInput") }}
+                        {{ form.bio(class="form-control", placeholder="Write anything about you…", id="bioInput") }}
                     </div>
 
                     <div class="mb-3 position-relative">
@@ -106,9 +109,12 @@
                     </div>
 
                     <div class="mb-3">
-                        {{ form.submit(class="btn btn-primary w-100") }}
+                        {{ form.submit(class="btn btn-primary w-100", value="Sign Up") }}
                     </div>
                 </form>
+                <p class="text-center fw-normal" style="font-size: 14px;">Already have an account?
+                    <a href="{{ url_for('author.login') }}">Log in</a>
+                </p>
             </div>
         </div>
     </div>
@@ -153,18 +159,23 @@
         });
     }
 
-    // Apply placeholder handling to form fields
-    ['nameInput', 'usernameInput', 'emailInput', 'bioInput', 'passwordInput', 'confirmpasswordInput'].forEach(id => {
-        handlePlaceholder(document.getElementById(id));
-    });
-
-     // Initialize and show the toasts with smooth animation and auto-dismiss after 5 seconds
-     var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-    var toastList = toastElList.map(function (toastEl) {
-        var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-        toast.show();  // Show the toast with fade-in effect
-        return toast;
-    });
+    // Apply placeholder handling to all relevant fields
+    handlePlaceholder(document.getElementById('nameInput'));
+    handlePlaceholder(document.getElementById('usernameInput'));
+    handlePlaceholder(document.getElementById('emailInput'));
+    handlePlaceholder(document.getElementById('bioInput'));
+    handlePlaceholder(passwordInput);
+    handlePlaceholder(confirmPasswordInput);
 </script>
+
+<style>
+    .form-label {
+        font-size: 14px;
+    }
+    ::placeholder {
+        font-size: 14px;
+        color: #F4F6FB;
+    }
+</style>
 
 {% endblock %}
