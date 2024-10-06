@@ -1,0 +1,18 @@
+{% set show_navbar = True %}
+{% set show_footer = True %}
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container my-4 text-center">
+    <h4>No Results Found</h4>
+    <p>We're sorry, but we couldn't find any results for your search.</p>
+    
+    <!-- No Results GIF -->
+    <img src="https://cdn.dribbble.com/users/2382015/screenshots/6065978/no_result.gif" alt="No Results" class="img-fluid" style="max-width: 500px; height: auto;">
+    
+    <div class="mt-4">
+        <p>Try adjusting your search term or check out our latest posts!</p>
+        <a href="{{ url_for('blog.posts') }}" class="btn btn-primary">Back to Posts</a>
+    </div>
+</div>
+{% endblock %}

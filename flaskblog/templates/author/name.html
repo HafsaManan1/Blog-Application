@@ -2,42 +2,24 @@
 {% set show_footer = False %}
 {% extends 'main/base.html' %}
 {% block content %}
-
-<!-- Toast container with fixed positioning -->
-<div class="toast-container position-fixed top-1 end-0 p-3">
-    {% for message in get_flashed_messages(with_categories=true) %}
-    <div class="toast align-items-center text-white {{ 'bg-success' if message[0] == 'success' else '' }}
-                 {{ 'bg-danger' if message[0] == 'error' else '' }}
-                 {{ 'bg-warning' if message[0] == 'warning' else '' }}
-                 {{ 'bg-info' if message[0] == 'info' else '' }}
-                 border-0 fade" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true"
-        data-bs-delay="5000">
-        <div class="d-flex">
-            <div class="toast-body">
-                {{ message[1] }}
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                aria-label="Close"></button>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-<br><br>
-
 <!-- Form Container -->
 <div class="container d-flex justify-content-center align-items-center min-vh-100" style="font-size: 14px;">
     <div class="row w-100">
         <div class="col-md-6 col-lg-4 mx-auto">
             <div class="card p-4">
-                <h4 class="card-title text-center mb-4">Sign Up</h4>
+                <center> <a href="{{ url_for('main.home_page')}}"><img src="https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=140&amp;height=69&amp;name=Medium%20size%20with%20Tag%20line.png"
+                    loading="eager" alt="Medium size with Tag line" height="45" width="90"
+                    sizes="(max-width: 140px) 100vw, 140px" alt="Logo" width="30" height="30"
+                    class="d-inline-block align-text-top"></center></a><br>
+                <h5 class="card-title text-center mb-4">Sign Up</h5>
                 <form action="{{ url_for('author.name') }}" method="POST">
                     {{ form.hidden_tag() }}
 
                     <div class="mb-3">
-                        {{ form.name.label(class="form-label") }}<span style="color: red;">*</span>
-                        {{ form.name(class="form-control", placeholder="Name", id="nameInput") }}
+                        {{ form.name.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                        {{ form.name(class="form-control mt-0", placeholder="Name", id="nameInput") }}
                         {% if form.name.errors %}
-                        <div class="text-danger" style="font-size: 12px;">
+                        <div class="text-danger" style="font-size: 10px;">
                             {% for error in form.name.errors %}
                             <p>{{ error }}</p>
                             {% endfor %}
@@ -46,10 +28,10 @@
                     </div>
 
                     <div class="mb-3">
-                        {{ form.username.label(class="form-label") }}<span style="color: red;">*</span>
-                        {{ form.username(class="form-control", placeholder="Username", id="usernameInput") }}
+                        {{ form.username.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                        {{ form.username(class="form-control mt-0", placeholder="Username", id="usernameInput") }}
                         {% if form.username.errors %}
-                        <div class="text-danger" style="font-size: 12px;">
+                        <div class="text-danger" style="font-size: 10px;">
                             {% for error in form.username.errors %}
                             <p>{{ error }}</p>
                             {% endfor %}
@@ -58,10 +40,10 @@
                     </div>
 
                     <div class="mb-3">
-                        {{ form.email.label(class="form-label") }}<span style="color: red;">*</span>
-                        {{ form.email(class="form-control", placeholder="Email", id="emailInput") }}
+                        {{ form.email.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                        {{ form.email(class="form-control mt-0", placeholder="Email", id="emailInput") }}
                         {% if form.email.errors %}
-                        <div class="text-danger" style="font-size: 12px;">
+                        <div class="text-danger" style="font-size: 10px;">
                             {% for error in form.email.errors %}
                             <p>{{ error }}</p>
                             {% endfor %}
@@ -70,20 +52,21 @@
                     </div>
 
                     <div class="mb-3">
-                        {{ form.bio.label(class="form-label") }}
-                        {{ form.bio(class="form-control", placeholder="Write anything about you…", id="bioInput") }}
+                        {{ form.bio.label(class="form-label mb-0") }}
+                        {{ form.bio(class="form-control mt-0", placeholder="Write anything about you…", id="bioInput", rows = "1") }}
                     </div>
 
                     <div class="mb-3 position-relative">
-                        {{ form.password_hash.label(class="form-label") }}<span style="color: red;">*</span>
-                        <div class="input-group">
-                            {{ form.password_hash(class="form-control", placeholder="Password", id="passwordInput") }}
-                            <button type="button" class="btn btn-outline-secondary" id="togglePassword" tabindex="-1">
+                        {{ form.password_hash.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                        <div class="position-relative">
+                            {{ form.password_hash(class="form-control mt-0", placeholder="Password", id="passwordInput", style="padding-right: 2.5rem;") }}
+                            <span id="togglePassword"
+                            class="position-absolute end-0 top-0 mt-2 me-2" style="cursor: pointer;">
                                 <i class="bi bi-eye-slash" id="toggleIcon"></i>
-                            </button>
+                        </span>
                         </div>
                         {% if form.password_hash.errors %}
-                        <div class="text-danger" style="font-size: 12px;">
+                        <div class="text-danger" style="font-size: 10px;">
                             {% for error in form.password_hash.errors %}
                             <p>{{ error }}</p>
                             {% endfor %}
@@ -92,15 +75,16 @@
                     </div>
 
                     <div class="mb-3 position-relative">
-                        {{ form.password_hash2.label(class="form-label") }}<span style="color: red;">*</span>
-                        <div class="input-group">
-                            {{ form.password_hash2(class="form-control", placeholder="Confirm Password", id="confirmpasswordInput") }}
-                            <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword" tabindex="-1">
+                        {{ form.password_hash2.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                        <div class="position-relative">
+                            {{ form.password_hash2(class="form-control mt-0", placeholder="Confirm Password", id="confirmpasswordInput", style="padding-right: 2.5rem;") }}
+                            <span id="toggleConfirmPassword"
+                            class="position-absolute end-0 top-0 mt-2 me-2" style="cursor: pointer;">
                                 <i class="bi bi-eye-slash" id="toggleConfirmIcon"></i>
-                            </button>
                         </div>
+                        
                         {% if form.password_hash2.errors %}
-                        <div class="text-danger" style="font-size: 12px;">
+                        <div class="text-danger" style="font-size: 10px;">
                             {% for error in form.password_hash2.errors %}
                             <p>{{ error }}</p>
                             {% endfor %}
@@ -109,10 +93,10 @@
                     </div>
 
                     <div class="mb-3">
-                        {{ form.submit(class="btn btn-primary w-100", value="Sign Up") }}
+                        {{ form.submit(class="btn btn-primary w-100", value="Sign Up", style="font-size: 14px") }}
                     </div>
                 </form>
-                <p class="text-center fw-normal" style="font-size: 14px;">Already have an account?
+                <p class="text-center fw-normal mb-0" style="font-size: 14px;">Already have an account?
                     <a href="{{ url_for('author.login') }}">Log in</a>
                 </p>
             </div>
@@ -166,6 +150,14 @@
     handlePlaceholder(document.getElementById('bioInput'));
     handlePlaceholder(passwordInput);
     handlePlaceholder(confirmPasswordInput);
+
+    // Initialize and show the toasts with smooth animation and auto-dismiss after 5 seconds
+  var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+    var toastList = toastElList.map(function (toastEl) {
+        var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
+        toast.show();  // Show the toast with fade-in effect
+        return toast;
+    });
 </script>
 
 <style>

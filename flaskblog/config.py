@@ -9,6 +9,6 @@ class Config:
     MAIL_USE_SSL = True
     MAIL_USE_TLS = False
     MAIL_USERNAME = ''
-    MAIL_PASSWORD = ''
-    MAIL_DEFAULT_SENDER = ''
+    MAIL_PASSWORD = ""
+    MAIL_DEFAULT_SENDER = ""
 

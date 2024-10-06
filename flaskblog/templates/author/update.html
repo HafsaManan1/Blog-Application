@@ -2,37 +2,16 @@
 {% set show_footer = True %}
 {% extends 'main/base.html'%}
 {% block content %}
-<!-- Toast container for messages -->
-<div class="toast-container position-fixed top-1 end-0 p-3">
-  {% for message in get_flashed_messages(with_categories=true) %}
-  <div class="toast align-items-center text-white {{ 'bg-success' if message[0] == 'success' else '' }}
-               {{ 'bg-danger' if message[0] == 'error' else '' }}
-               {{ 'bg-warning' if message[0] == 'warning' else '' }}
-               {{ 'bg-info' if message[0] == 'info' else '' }}
-               border-0 fade" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true"
-      data-bs-delay="5000">
-      <div class="d-flex">
-          <div class="toast-body">
-              {{ message[1] }}
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-              aria-label="Close"></button>
-      </div>
-  </div>
-  {% endfor %}
-</div>
-
 <!-- Update Profile Form -->
 <div class="container my-4">
-  <h3>Update Profile</h3>
-  <br>
+  <h4>Update Profile</h4>
   <form action="/update/{{name_to_update.id}}" method="POST" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
 
     <!-- Name Field -->
-    <div class="mb-3">
-      {{ form.name.label(class="form-label") }}<span style="color: red;">*</span>
-      {{ form.name(class="form-control", value=name_to_update.name) }}
+    <div class="mb-2">
+      {{ form.name.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+      {{ form.name(class="form-control mt-0", value=name_to_update.name) }}
       {% if form.name.errors %}
       <div class="text-danger" style="font-size: 10px;">
         {% for error in form.name.errors %}
@@ -43,9 +22,9 @@
     </div>
 
     <!-- Username Field -->
-    <div class="mb-3">
-      {{ form.username.label(class="form-label") }}<span style="color: red;">*</span>
-      {{ form.username(class="form-control", value=name_to_update.username) }}
+    <div class="mb-2">
+      {{ form.username.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+      {{ form.username(class="form-control mt-0", value=name_to_update.username) }}
       {% if form.username.errors %}
       <div class="text-danger" style="font-size: 10px;">
         {% for error in form.username.errors %}
@@ -56,9 +35,9 @@
     </div>
 
     <!-- Email Field -->
-    <div class="mb-3">
-      {{ form.email.label(class="form-label") }}<span style="color: red;">*</span>
-      {{ form.email(class="form-control", value=name_to_update.email) }}
+    <div class="mb-2">
+      {{ form.email.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+      {{ form.email(class="form-control mt-0", value=name_to_update.email) }}
       {% if form.email.errors %}
       <div class="text-danger" style="font-size: 10px;">
         {% for error in form.email.errors %}
@@ -69,19 +48,33 @@
     </div>
 
     <!-- Bio Field -->
-    <div class="mb-3">
-      {{ form.bio.label(class="form-label") }}
-      <textarea name="bio" class="form-control">{{name_to_update.bio}}</textarea>
+    <div class="mb-2">
+      {{ form.bio.label(class="form-label mb-0") }}
+      {{ form.bio(class="form-control mt-0", value=name_to_update.bio) }}
+      {% if form.bio.errors %}
+      <div class="text-danger" style="font-size: 10px;">
+        {% for error in form.bio.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
 
     <!-- Profile Picture Field -->
-    <div class="mb-3">
-      {{ form.profile_pic.label(class="form-label") }}
-      {{ form.profile_pic(class="form-control") }}
+    <div class="mb-2">
+      {{ form.profile_pic.label(class="form-label mb-0") }}
+      {{ form.profile_pic(class="form-control mt-0", accept="image/*") }}
+      {% if form.profile_pic.errors %}
+      <div class="text-danger" style="font-size: 10px;">
+        {% for error in form.profile_pic.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
 
     <!-- Submit Button -->
-    <div class="mb-3">
+    <div class="mb-2">
       <p class="text-end">
       {{ form.submit(class="btn btn-primary", value="Update") }}</p>
     </div>
@@ -100,14 +93,14 @@
 
 <style>
   .form-label {
-    font-size: 14px;  /* Set font size for labels */
+    font-size: 14px;  
   }
   ::placeholder {
-    font-size: 14px;  /* Set font size for placeholders */
-    color: #F4F6FB;   /* Placeholder color */
+    font-size: 14px;  
+    color: #F4F6FB;   
   }
   .text-danger {
-    font-size: 10px;  /* Error messages font size */
+    font-size: 10px; 
   }
 </style>
 {% endblock %}

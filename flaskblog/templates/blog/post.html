@@ -2,57 +2,50 @@
 {% set show_footer = True %}
 {% extends 'main/base.html'%}
 {% block content %}
-<!-- Toast container with fixed positioning -->
-<div class="toast-container position-fixed top-1 end-0 p-3">
-  {% for message in get_flashed_messages(with_categories=true) %}
-  <div class="toast align-items-center text-white {{ 'bg-success' if message[0] == 'success' else '' }}
-               {{ 'bg-danger' if message[0] == 'error' else '' }}
-               {{ 'bg-warning' if message[0] == 'warning' else '' }}
-               {{ 'bg-info' if message[0] == 'info' else '' }}
-               border-0 fade" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true"
-      data-bs-delay="5000">
-      <div class="d-flex">
-          <div class="toast-body">
-              {{ message[1] }}
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-              aria-label="Close"></button>
-      </div>
-  </div>
-  {% endfor %}
-</div>
-
 
 <div class="container my-4">
-  <div class="shadow p-3 mb-5 bg-body rounded">
+  <div class="p-3 mb-5 bg-body rounded">
     <p class="d-flex justify-content-between">
       <!-- Left aligned 'Back' button -->
-      <a href="{{ url_for('blog.posts') }}" class='btn'>
-          <i class="fa-solid fa-arrow-left"></i> Back
+      <a href="{{ url_for('blog.posts') }}" style="text-decoration: none; color: #b7b7b7;">
+        <i class="fa-solid fa-arrow-left" style="font-size: 14px;" ></i> Back
       </a>
-      
+
       <!-- Right aligned buttons (Edit and Delete) -->
       <span>
-          {% if post.poster_id == current_user.id %}
-          <a href="{{ url_for('blog.edit_post', id=post.id) }}" class="btn">
-              <i class="fa-regular fa-pen-to-square"></i>
-          </a>
-          <a href="{{ url_for('blog.delete_post', id=post.id) }}" class="btn">
-              <i class="fa-solid fa-trash"></i>
-          </a>
-          {% endif %}
+        {% if post.poster_id == current_user.id %}
+        <a href="{{ url_for('blog.edit_post', id=post.id) }}" class="btn btn-sm" style="text-decoration: none; color: #b7b7b7;">
+          <i class="fa-regular fa-pen-to-square" style="font-size: 14px;"></i>
+        </a>
+        <!-- Trigger modal for delete confirmation -->
+        <button type="button" class="btn btn-sm text-danger" data-bs-toggle="modal" data-bs-target="#deletePostModal">
+          <i class="fa-solid fa-trash" style="font-size: 14px;"></i>
+        </button>
+        {% endif %}
       </span>
-  </p>
-  
-      <h1>{{ post.title }}</h1>
-      Blog by: {{ post.poster.username }}<br>
-      Published on: {{ post.date_posted.date() }}<br>
-      <br>
-      <!-- Content with responsive images -->
-      <div class="content">
-          {{ post.content|safe }}
-      </div>
-      <br>
+    </p>
+
+    <h1>{{ post.title }}</h1>
+    Blog by: {{ post.poster.username }}<br>
+    Published on: {{ post.date_posted.date() }}<br>
+    <br>
+    <!-- Post Image -->
+    {% if post.image_url %}
+    <div class="post-image mb-4">
+      <img src="{{ post.image_url }}" alt="Post Image" class="card-img-top img-fluid rounded"
+        style="object-fit: cover;">
+    </div>
+    {% else %}
+    <div class="post-image mb-4">
+      <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+        alt="Placeholder Image" class="card-img-top img-fluid rounded" style="max-height: 400px; object-fit: cover;">
+    </div>
+    {% endif %}
+    <!-- Content with responsive images -->
+    <div class="content">
+      {{ post.content|safe }}
+    </div>
+    <br>
   </div>
 
 </div>
@@ -60,45 +53,84 @@
 <!-- Add custom CSS for responsive images -->
 <style>
   .content img {
-      max-width: 100%;
-      height: auto;
+    max-width: 100%;
+    height: auto;
   }
 </style>
+
 <div class="container my-4">
   <!-- Comment Form -->
+  {% if current_user.is_authenticated %}
   <h4 class="mb-4">Leave a Comment</h4>
 
   <form action="{{ url_for('blog.post', id=post.id) }}" method="POST">
     {{ form.hidden_tag() }}
     <div class="mb-3">
-      {{ form.content(class="form-control", rows="5", placeholder="Write your comment here...") }}
+      {{ form.content(class="form-control", rows="1", placeholder="Write your comment here...") }}
     </div>
     <div class="d-flex justify-content-end">
       {{ form.submit(class="btn btn-primary") }}
     </div>
   </form>
+  {% endif %}
 
   <!-- Comments List -->
-  <h4 class="my-4">Comments</h4>
+  {% if comments %}
+  <h4 class="my-4 text-center">Comments</h4>
   <div class="list-group">
     {% for comment in comments %}
-    <div class="list-group-item mb-3">
-      <h5 class="mb-1">{{ comment.commenter.name }}</h5>
-      <p class="mb-1">{{ comment.content }}</p>
+    <div class="d-flex align-items-start mb-3">
+      <!-- Profile Picture -->
+      <div class="flex-shrink-0">
+        {% if comment.commenter.profile_pic %}
+        <img src="{{ url_for('static', filename='images/' + comment.commenter.profile_pic) }}" width="40" height="40" class="rounded-circle">
+        {% else %}
+        <img src="{{ url_for('static', filename='images/default_profile_pic.png') }}" width="40" height="40" class="rounded-circle">
+        {% endif %}
+      </div>
+
+      <!-- Comment Body -->
+      <div class="ms-3 flex-grow-1">
+        <h6 class="fw-bold mb-1">{{ comment.commenter.username }}</h6>
+        <p class="text-muted mb-0 text-break">{{ comment.content }}</p>
+      </div>
     </div>
     {% endfor %}
   </div>
+  {% endif %}
 </div>
 
+
+<!-- Modal for Delete Confirmation -->
+<div class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deletePostModalLabel">Delete Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this post? This action cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <!-- Confirm delete by submitting a form to the delete route -->
+        <form action="{{ url_for('blog.delete_post', id=post.id) }}" method="POST">
+          {{ form.hidden_tag() }}
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
   var toastElList = [].slice.call(document.querySelectorAll('.toast'));
   var toastList = toastElList.map(function (toastEl) {
-      var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-      toast.show();  // Show the toast with fade-in effect
-      return toast;
+    var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
+    toast.show();  // Show the toast with fade-in effect
+    return toast;
   });
-  </script>
+</script>
 
 {% endblock %}

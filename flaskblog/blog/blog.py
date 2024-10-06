@@ -8,6 +8,7 @@ from flask_mail import Message
 blog = Blueprint("blog",__name__)
 
 @blog.route('/add-post', methods = ['GET','POST'])
+@login_required
 def add_post():
     form = PostForm()
     if form.validate_on_submit():
@@ -15,9 +16,10 @@ def add_post():
             flash("Login in order to comment","info")
             return redirect(url_for('author.login'))
         poster = current_user.id
-        post = Posts(title=form.title.data, poster_id = poster, content = form.content.data)
+        post = Posts(title=form.title.data, poster_id = poster, content = form.content.data, image_url=form.image_url.data )
         form.title.data = ''
         form.content.data = ''
+        form.image_url.data = ''
         db.session.add(post)
         db.session.commit()
         flash("Blog submitted successfully","success")
@@ -28,7 +30,7 @@ def add_post():
 @blog.route('/posts')
 def posts():
     page = request.args.get('page', 1, type=int)
-    posts = Posts.query.order_by(Posts.date_posted.desc()).paginate(page=page, per_page=6)
+    posts = Posts.query.order_by(Posts.date_posted.desc()).paginate(page=page, per_page=9)
     return render_template('blog/posts.html',posts=posts)
 
 @blog.route('/post/<int:id>',methods = ['GET','POST'])
@@ -67,6 +69,7 @@ def edit_post(id):
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
+        post.image_url = form.image_url.data
         db.session.add(post)
         db.session.commit()
         flash("Post updated successfully ", "success")
@@ -74,13 +77,14 @@ def edit_post(id):
     if current_user.id == post.poster_id:
         form.title.data = post.title
         form.content.data = post.content
+        form.image_url.data = post.image_url
         return render_template('blog/edit_post.html', form = form)
     else:
         flash("You arent authorized to edit this post", "warning")
         posts = Posts.query.order_by(Posts.date_posted)
         return render_template('blog/edit_post.html', form=form)
 
-@blog.route('/posts/delete/<int:id>')
+@blog.route('/posts/delete/<int:id>' , methods=["GET", "POST"])
 @login_required
 def delete_post(id):
     post_to_delete = Posts.query.get_or_404(id)
@@ -91,18 +95,18 @@ def delete_post(id):
             db.session.commit()
             flash("Post deleted successfully","success")
             page = request.args.get('page', 1, type=int)
-            posts = Posts.query.order_by(Posts.date_posted.desc()).paginate(page=page, per_page=6)
+            posts = Posts.query.order_by(Posts.date_posted.desc()).paginate(page=page, per_page=9)
             return render_template('blog/posts.html',posts=posts)
 
         except:
             flash("There was a problem in deleting the post","error")
             page = request.args.get('page', 1, type=int)
-            posts = Posts.query.order_by(Posts.date_posted.desc()).paginate(page=page, per_page=6)
+            posts = Posts.query.order_by(Posts.date_posted.desc()).paginate(page=page, per_page=9)
             return render_template('blog/posts.html',posts=posts)
     else:
         flash("You arent authorized to delete that post","warning")
         page = request.args.get('page', 1, type=int)
-        posts = Posts.query.order_by(Posts.date_posted.desc()).paginate(page=page, per_page=6)
+        posts = Posts.query.order_by(Posts.date_posted.desc()).paginate(page=page, per_page=9)
         return render_template('blog/posts.html',posts=posts)
     
 @blog.context_processor
@@ -110,16 +114,26 @@ def base():
     form = SearchForm()
     return dict(form = form)
 
-@blog.route('/search', methods=["POST"])
+@blog.route('/search', methods=["POST", "GET"])
 def search():
     form = SearchForm()
-    if form.validate_on_submit():
-        search_term = form.searched.data.strip() 
-        if search_term:
-            posts = Posts.query.filter(Posts.content.like(f'%{search_term}%')).order_by(Posts.title).all()
-            return render_template("blog/search.html", form=form, searched=search_term, posts=posts)
+    if request.method == "POST" and form.validate_on_submit():
+        search_term = form.searched.data.strip()
+        return redirect(url_for('blog.search', search_term=search_term, page=1))
+
+    search_term = request.args.get('search_term')
+    page = request.args.get('page', 1, type=int)
+    posts = None
+
+    if search_term:
+        posts = Posts.query.filter(Posts.content.like(f'%{search_term}%')).order_by(Posts.title)
+        if posts.count()>0:
+           posts = posts.paginate(page=page, per_page=9)
+           return render_template("blog/search.html", form=form, searched=search_term, posts=posts)
         else:
-            flash("Please enter a search term","warning")
-            return redirect(url_for('blog.posts'))
-    return redirect(url_for('blog.posts'))
+            return render_template("blog/no_search.html")
+    
+    else:
+        flash("Please enter a search term", "warning")
+        return redirect(url_for('blog.posts'))
 

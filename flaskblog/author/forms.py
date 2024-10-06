@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, TextAreaField, FileField
+from wtforms import StringField, SubmitField, PasswordField, FileField
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
 
 # Custom validator to check if password is alphanumeric
@@ -16,14 +16,9 @@ class NameForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired(), Length(min=2, max=50)])
     email = StringField("Email", validators=[DataRequired(), Email(), Length(max=100)])
     username = StringField("Username", validators=[DataRequired(), Length(min=4, max=25)])
-    bio = TextAreaField("Bio", validators=[Length(max=500)])
+    bio = StringField("Bio", validators=[Length(max=150)])
     profile_pic = FileField("Profile Pic")
-    password_hash = PasswordField("Password", validators=[
-        DataRequired(), 
-        Length(min=6), 
-        is_alphanumeric, 
-        EqualTo('password_hash2', message="Passwords must match.")
-    ])
+    password_hash = PasswordField("Password", validators=[DataRequired(),Length(min=6), is_alphanumeric, EqualTo('password_hash2', message="Passwords must match.")])
     password_hash2 = PasswordField("Confirm Password", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
@@ -32,13 +27,6 @@ class RestRequestForm(FlaskForm):
     submit = SubmitField("Send Reset Link")
 
 class RestPasswordForm(FlaskForm):
-    password = PasswordField('New Password', validators=[
-        DataRequired(),
-        Length(min=6),
-        is_alphanumeric
-    ])
-    confirm_password = PasswordField('Confirm Password', validators=[
-        DataRequired(), 
-        EqualTo('password')
-    ])
+    password = PasswordField('New Password', validators=[DataRequired(),Length(min=6),is_alphanumeric])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(),EqualTo('password')])
     submit = SubmitField('Reset Password')

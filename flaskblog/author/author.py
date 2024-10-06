@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from flaskblog import db, login_manager, mail
 from flaskblog.author.forms import NameForm, LoginForm, RestRequestForm, RestPasswordForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from flaskblog.models import Users, PasswordResetToken
+from flaskblog.models import Users, PasswordResetToken, Posts
 from flask_mail import Message
 from datetime import datetime, timezone
 from flask_login import login_required, current_user, login_user, logout_user
@@ -20,7 +20,8 @@ def load_user(user_id):
 @login_required
 def dashboard():
     form = NameForm()
-    return render_template("author/dashboard.html",form=form)
+    user_posts = Posts.query.filter_by(poster_id=current_user.id).all()
+    return render_template("author/dashboard.html",form=form, posts=user_posts)
 
 @author.route('/user-login', methods = ['GET', 'POST'])
 def login():
@@ -31,7 +32,7 @@ def login():
             if check_password_hash(user.password_hash,form.password.data):
                 login_user(user)
                 flash("Login successful","success")
-                return redirect(url_for('author.dashboard'))
+                return redirect(url_for('main.home_page'))
             else:
                 flash("Wrong Password","error")
         else:
@@ -57,14 +58,13 @@ def reset_request():
                           recipients=[user.email])
             msg.body = f'''To reset your password, visit the following link:
             
-                            {url_for('author.reset_password_token', token=token, _external=True)}
+            {url_for('author.reset_password_token', token=token, _external=True)}
 
-                            If you did not make this request, simply ignore this email and no changes will be made.
-
-                            Regards,
-                            Your Flask App'''
+If you did not make this request, simply ignore this email and no changes will be made.
+Regards,
+Your Flask App'''
             mail.send(msg)
-            flash('An email with instructions to reset your password has been sent', 'info')
+            flash('Password Reset email has been sent.', 'success')
         else:
             flash('No account with that email address exists.', 'warning')
         return redirect(url_for('author.login'))
@@ -159,9 +159,8 @@ def name():
 @author.route('/delete/<int:id>')
 def delete(id):
     user_to_delete = Users.query.get_or_404(id)
-
     try: 
-        # Delete the user, which will also delete associated posts and comments
+        PasswordResetToken.query.filter_by(user_id=user_to_delete.id).delete()
         db.session.delete(user_to_delete)
         db.session.commit()
 

@@ -15,7 +15,6 @@ class Users(db.Model, UserMixin):
     posts = db.relationship('Posts', backref = 'poster', cascade="all, delete-orphan")
     comments = db.relationship('Comments', backref = 'commenter', cascade="all, delete-orphan")
     profile_pic = db.Column(db.String(), nullable = True)
-
     @property
     def password(self):
         raise AttributeError("password is not a readable attribute")
@@ -37,6 +36,7 @@ class Posts(db.Model):
     date_posted = db.Column(db.DateTime, default = datetime.now(timezone.utc))
     poster_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comments', backref='post', cascade="all, delete-orphan")
+    image_url = db.Column(db.String(255), nullable=False)
 
 class Comments(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
@@ -52,6 +52,7 @@ class PasswordResetToken(db.Model):
     expiration_date = db.Column(db.DateTime, nullable=False)
 
     user = db.relationship('Users', backref='reset_tokens')
+    
 
     @staticmethod
     def generate_token(user):

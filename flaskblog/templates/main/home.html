@@ -4,43 +4,58 @@
 {% block title %}
     Home Page
 {% endblock %}
-
 {% block content %}
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+<style>
+  @media (max-width: 768px) {
+    #carouselExampleCaptions {
+      height: 100vh; 
+    }
+    .carousel-item img {
+      height: 100vh;
+      object-fit: cover; 
+    }
+  }
+  #carouselExampleCaptions {
+    height: 100vh;
+  }
+  .carousel-item img {
+    height: 100vh;
+    object-fit: cover;
+  }
+</style>
+
+<div id="carouselExampleCaptions" class="carousel slide w-100" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="https://images.unsplash.com/photo-1497091071254-cc9b2ba7c48a?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="...">
-      <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
-        <h3 class="display-5 text-center">Become a writer</h3>
-        <p class="text-center">Share Your Voice with the World. Let your thoughts and stories inspire others. Start writing today and make your mark.</p>
-        <a href="{{ url_for('author.name') }}" class="btn btn-outline-light" style="background-color: transparent; border: 2px solid white; color: white;">
-          Signup
-        </a>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="https://images.unsplash.com/photo-1633809399177-09eb7d4462c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="...">
+      <img src="https://images.unsplash.com/photo-1633809399177-09eb7d4462c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="...">
       <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
         <h3 class="display-5 text-center">Discover new perspectives</h3>
-        <p class="text-center">Engage with diverse voices and ideas. Connect with like-minded individuals and be part of the conversation.</p>
+        <p class="lead" style="max-width: 600px;">
+          Dive into a realm of new perspectives and vibrant ideas! Engage with diverse voices that ignite your imagination and challenge your thinking. Connect with like-minded individuals who share your passions and spark dynamic conversations. Together, we can create a community that thrives on collaboration and creativity. Don’t just stand by—join the conversation and let your voice shine!
+        </p>
         <a href="{{ url_for('blog.posts') }}" class="btn btn-outline-light" style="background-color: transparent; border: 2px solid white; color: white;">
           Explore
         </a>
       </div>
     </div>
+    <div class="carousel-item">
+      <img src="https://images.unsplash.com/photo-1497091071254-cc9b2ba7c48a?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+        <h3 class="display-5 text-center">Become a writer</h3>
+        <p class="lead" style="max-width: 600px;">Unleash the power of your words and share your unique voice with the world! Every thought, story, and experience you pen down has the potential to inspire and connect with others. Why wait? Start writing today, and let your creativity leave a lasting impact. Make your mark, one story at a time!</p>
+        {% if current_user.is_authenticated %}
+        {% else %}
+        <a href="{{ url_for('author.name') }}" class="btn btn-outline-light" style="background-color: transparent; border: 2px solid white; color: white;">
+          Sign Up
+        </a>
+        {% endif %}
+      </div>
+    </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
 </div>
   
 {% endblock %}

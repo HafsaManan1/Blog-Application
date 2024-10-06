@@ -2,43 +2,47 @@
 {% set show_footer = True %}
 {% extends 'main/base.html'%}
 {% block content %}
-<div class="toast-container position-fixed top-1 end-0 p-3">
-  {% for message in get_flashed_messages(with_categories=true) %}
-  <div class="toast align-items-center text-white {{ 'bg-success' if message[0] == 'success' else '' }}
-               {{ 'bg-danger' if message[0] == 'error' else '' }}
-               {{ 'bg-warning' if message[0] == 'warning' else '' }}
-               {{ 'bg-info' if message[0] == 'info' else '' }}
-               border-0 fade" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true"
-      data-bs-delay="5000">
-      <div class="d-flex">
-          <div class="toast-body">
-              {{ message[1] }}
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-              aria-label="Close"></button>
-      </div>
-  </div>
-  {% endfor %}
-</div>
-<div class="container my-4">
+
+<div class="container my-4 ">
+  <a href="{{ url_for('blog.posts') }}" style="text-decoration: none; color: #b7b7b7;">
+    <i class="fa-solid fa-arrow-left" style="font-size: 14px;" ></i> Back
+</a><br><br>
   <form method="POST">
     {{ form.hidden_tag() }}
   
-    {{ form.title.label(class="form-label") }}
+    {{ form.title.label(class="form-label mb-0") }}<span style="color: red;">*</span>
     {{ form.title(class="form-control") }}
+    <div class="text-danger mb-0" style="font-size: 10px;">
+      {% for error in form.title.errors %}
+      <p>{{ error }}</p>
+      {% endfor %}
+    </div>
     <br>
-    {{ form.content.label(class="form-label") }}
+    {{ form.image_url.label(class="form-label mb-0") }}
+    {{ form.image_url(class="form-control",placeholder="Image URL") }}
+    <div class="text-danger mb-0" style="font-size: 10px;">
+      {% for error in form.image_url.errors %}
+      <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+    <br>
+    {{ form.content.label(class="form-label mb-0") }}<span style="color: red;">*</span>
     {{ form.content(class="form-control", rows = "5") }}
+    <div class="text-danger mb-0" style="font-size: 10px;">
+      {% for error in form.content.errors %}
+      <p>{{ error }}</p>
+      {% endfor %}
+    </div>
     <br>
     <p class="text-end">
-    {{ form.submit(class="btn btn-primary") }}</p>
+    {{ form.submit(class="btn btn-primary",value="Post Blog") }}</p>
   
   </form>
   {{ckeditor.load()}}
   {{ckeditor.config(name='content')}}
   </div>
   
-<a href="{{ url_for('blog.posts')}}" class='btn btn-outline-secondary'>Back to Blogs</a>
+
 
 
 <script>

@@ -2,80 +2,89 @@
 {% set show_footer = False %}
 {% extends 'main/base.html' %}
 {% block content %}
-<!-- Toast container with fixed positioning -->
-<div class="toast-container position-fixed top-1 end-0 p-3">
-    {% for message in get_flashed_messages(with_categories=true) %}
-    <div class="toast align-items-center text-white {{ 'bg-success' if message[0] == 'success' else '' }}
-                 {{ 'bg-danger' if message[0] == 'error' else '' }}
-                 {{ 'bg-warning' if message[0] == 'warning' else '' }}
-                 {{ 'bg-info' if message[0] == 'info' else '' }}
-                 border-0 fade" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true"
-        data-bs-delay="5000">
-        <div class="d-flex">
-            <div class="toast-body">
-                {{ message[1] }}
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                aria-label="Close"></button>
-        </div>
-    </div>
-    {% endfor %}
-</div>
 
 <!-- Form Container -->
 <div class="container d-flex justify-content-center align-items-center min-vh-100" style="font-size: 14px;">
-    <div class="row w-100">
-        <div class="col-md-6 col-lg-4 mx-auto">
-            <div class="card p-4">
-               <center> <a href="{{ url_for('main.home_page')}}"><img src="https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=140&amp;height=69&amp;name=Medium%20size%20with%20Tag%20line.png"
-            loading="eager" alt="Medium size with Tag line" height="45" width="90"
-            srcset="https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=70&amp;height=35&amp;name=Medium%20size%20with%20Tag%20line.png 70w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=140&amp;height=69&amp;name=Medium%20size%20with%20Tag%20line.png 140w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=210&amp;height=104&amp;name=Medium%20size%20with%20Tag%20line.png 210w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=280&amp;height=138&amp;name=Medium%20size%20with%20Tag%20line.png 280w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=350&amp;height=173&amp;name=Medium%20size%20with%20Tag%20line.png 350w, https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=420&amp;height=207&amp;name=Medium%20size%20with%20Tag%20line.png 420w"
-            sizes="(max-width: 140px) 100vw, 140px" alt="Logo" width="30" height="30"
-            class="d-inline-block align-text-top"></center></a><br>
-                <h5 class="card-title text-center mb-4">Welcome to OSOL Blogs</h5>
-                <form method="POST">
-                    {{ form.hidden_tag() }}
-                    <div class="mb-3">
-                        {{ form.username.label(class="form-label") }}<span style="color: red;">*</span>
-                        {{ form.username(class="form-control", placeholder="Username", id="usernameInput") }}
-                        {% if form.username.errors %}
-                        <div class="text-danger" style="font-size: 12px;">
-                            {% for error in form.username.errors %}
-                            <p>{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
+    <div class="w-100" style="max-width: 350px;"> <!-- Use percentage-based width with max-width -->
+        <div class="card p-4">
+           <center>
+            <a href="{{ url_for('main.home_page')}}">
+                <img src="https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=140&amp;height=69&amp;name=Medium%20size%20with%20Tag%20line.png"
+                    loading="eager" alt="Medium size with Tag line" height="45" width="90"
+                    class="d-inline-block align-text-top">
+            </a>
+           </center>
+           <br>
+           <h5 class="card-title text-center mb-4">Welcome to OSOL Blogs</h5>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.username.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                    {{ form.username(class="form-control mt-0", placeholder="Username", id="usernameInput") }}
+                    {% if form.username.errors %}
+                    <div class="text-danger" style="font-size: 10px;">
+                        {% for error in form.username.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
-                    <div class="mb-3 position-relative">
-                        {{ form.password.label(class="form-label") }}<span style="color: red;">*</span>
-                        <div class="input-group">
-                            {{ form.password(class="form-control", placeholder="Password", id="passwordInput") }}
-                            <button type="button" class="btn btn-outline-secondary" id="togglePassword" tabindex="-1">
-                                <i class="bi bi-eye-slash" id="toggleIcon"></i>
-                            </button>
-                            {% if form.password.errors %}
-                            <div class="text-danger" style="font-size: 12px;">
-                                {% for error in form.password.errors %}
-                                <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
-                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-2 position-relative">
+                    {{ form.password.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                    <div class="position-relative">
+                        <!-- Flask form password field -->
+                        {{ form.password(class="form-control", id="passwordInput", placeholder="Password", style="padding-right: 2.5rem;") }}
+                        
+                        <!-- Eye icon toggle (positioned absolutely inside the input) -->
+                        <span id="togglePassword" class="position-absolute end-0 top-0 mt-2 me-2" style="cursor: pointer;">
+                            <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                        </span>
                     </div>
-                    <p class="text-end fw-normal" style="font-size: 14px;">
-                        <a href="{{ url_for('author.reset_request') }}">Forgot password?</a>
-                    </p>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    {% if form.password.errors %}
+                    <div class="text-danger mb-0" style="font-size: 10px;">
+                        {% for error in form.password.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
-                    <p class="text-center" style="font-size: 14px;">Don't have an account?
-                        <a href="{{ url_for('author.name') }}">Sign Up</a>
-                    </p>
-                </form>
-            </div>
+                    {% endif %}
+                </div>
+                <div class="text-end fw-normal mb-3" style="font-size: 14px;">
+                    <a href="{{ url_for('author.reset_request') }}">Forgot password?</a>
+                </div>
+                <div class="mb-2">
+                    <button type="submit" class="btn btn-primary w-100" style="font-size: 14px;">Log In</button>
+                </div>
+                <div class="text-center" style="font-size: 14px;">Don't have an account?
+                    <a href="{{ url_for('author.name') }}">Sign Up</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<!-- Additional CSS -->
+<style>
+    .form-label {
+        font-size: 14px;
+    }
+
+    ::placeholder {
+        font-size: 14px;
+        color: #F4F6FB;
+    }
+
+    .custom-info {
+        background-color: #0a4275;
+        color: white;
+    }
+
+    /* Optional styling to control smooth width transitions */
+    @media (max-width: 576px) {
+        .card {
+            padding: 2rem; /* More padding for small devices */
+        }
+    }
+</style>
 
 <script>
     const togglePassword = document.getElementById('togglePassword');
@@ -126,6 +135,10 @@
 ::placeholder {
     font-size: 14px;
     color: #F4F6FB;
+}
+.custom-info {
+    background-color: #0a4275;
+    color: white;
 }
 </style>
 
