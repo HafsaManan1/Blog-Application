@@ -1,0 +1,99 @@
+
+@media (max-width: 768px) {
+    #carouselExampleCaptions {
+      height: 100vh; 
+    }
+    .carousel-item img {
+      height: 100vh;
+      object-fit: cover; 
+    }
+
+    /* Image container for small screens (pe-3 class) */
+    .pe-3 {
+      width: 170px; /* Set image container to 170px width */
+    }
+}
+
+/* Media query for screens with min-width of 769px */
+@media (min-width: 769px) {
+    .pe-3 {
+      width: 250px; /* Set image container to 250px width */
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        padding: 2rem; /* More padding for small devices */
+    }
+}
+
+
+  #carouselExampleCaptions {
+    height: 100vh;
+  }
+  .carousel-item img {
+    height: 100vh;
+    object-fit: cover;
+  }
+  body {
+    background-color: white;
+    color: black;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+ }
+
+ footer {
+    text-align: center;
+    margin-top: auto;
+ }
+
+ html,
+ body {
+    height: 100%;
+ }
+
+ .carousel {
+    flex: 1;
+    /* Allow the carousel to grow and take remaining space */
+ }
+ 
+
+ .form-control {
+    font-size: 14px;
+ }
+
+ ::placeholder {
+    font-size: 14px;
+    color: #F4F6FB;
+ }
+
+ .form-label {
+    font-size: 14px;
+ }
+ .custom-info {
+    background-color: #0a4275;
+    color: white;
+}
+
+ .username-text {
+    display: inline-block;
+    max-width: 105px; /* Adjust this value based on the layout */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.content img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .rounded-circle {
+    aspect-ratio: 1/1;
+  }
+  .text-danger {
+    font-size: 10px; 
+  }

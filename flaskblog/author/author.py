@@ -34,9 +34,9 @@ def login():
                 flash("Login successful","success")
                 return redirect(url_for('main.home_page'))
             else:
-                flash("Wrong Password","error")
+                flash("Invalid username or password","error")
         else:
-            flash("This user does not exist","error")
+            flash("Invalid username or password","error")
     return render_template('author/user_login.html', form = form)
 
 @author.route('/logout', methods = ['GET', 'POST'])

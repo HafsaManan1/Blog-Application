@@ -3,171 +3,98 @@
 {% extends 'main/base.html' %}
 {% block content %}
 <!-- Form Container -->
-<div class="container d-flex justify-content-center align-items-center min-vh-100" style="font-size: 14px;">
-    <div class="row w-100">
-        <div class="col-md-6 col-lg-4 mx-auto">
-            <div class="card p-4">
-                <center> <a href="{{ url_for('main.home_page')}}"><img src="https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=140&amp;height=69&amp;name=Medium%20size%20with%20Tag%20line.png"
-                    loading="eager" alt="Medium size with Tag line" height="45" width="90"
-                    sizes="(max-width: 140px) 100vw, 140px" alt="Logo" width="30" height="30"
-                    class="d-inline-block align-text-top"></center></a><br>
-                <h5 class="card-title text-center mb-4">Sign Up</h5>
-                <form action="{{ url_for('author.name') }}" method="POST">
-                    {{ form.hidden_tag() }}
-
-                    <div class="mb-3">
-                        {{ form.name.label(class="form-label mb-0") }}<span style="color: red;">*</span>
-                        {{ form.name(class="form-control mt-0", placeholder="Name", id="nameInput") }}
-                        {% if form.name.errors %}
-                        <div class="text-danger" style="font-size: 10px;">
-                            {% for error in form.name.errors %}
-                            <p>{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
+<div class="container d-flex justify-content-center align-items-center min-vh-80" style="font-size: 14px;">
+    <div class="w-100" style="width: 100%; max-width: 350px;">
+        <div class="card p-4">
+            <center>
+                <a href="{{ url_for('main.home_page') }}">
+                    <img src="https://osoltech.com/hs-fs/hubfs/Medium%20size%20with%20Tag%20line.png?width=140&amp;height=69&amp;name=Medium%20size%20with%20Tag%20line.png"
+                        loading="eager" alt="Medium size with Tag line" height="45" width="90"
+                        class="d-inline-block align-text-top">
+                </a>
+            </center>
+            <br>
+            <h5 class="card-title text-center mb-4">Sign Up</h5>
+            <form action="{{ url_for('author.name') }}" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.name.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                    {{ form.name(class="form-control mt-0", placeholder="Name", id="nameInput") }}
+                    {% if form.name.errors %}
+                    <div class="text-danger" style="font-size: 10px;">
+                        {% for error in form.name.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
-
-                    <div class="mb-3">
-                        {{ form.username.label(class="form-label mb-0") }}<span style="color: red;">*</span>
-                        {{ form.username(class="form-control mt-0", placeholder="Username", id="usernameInput") }}
-                        {% if form.username.errors %}
-                        <div class="text-danger" style="font-size: 10px;">
-                            {% for error in form.username.errors %}
-                            <p>{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    {{ form.username.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                    {{ form.username(class="form-control mt-0", placeholder="Username", id="usernameInput") }}
+                    {% if form.username.errors %}
+                    <div class="text-danger" style="font-size: 10px;">
+                        {% for error in form.username.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
-
-                    <div class="mb-3">
-                        {{ form.email.label(class="form-label mb-0") }}<span style="color: red;">*</span>
-                        {{ form.email(class="form-control mt-0", placeholder="Email", id="emailInput") }}
-                        {% if form.email.errors %}
-                        <div class="text-danger" style="font-size: 10px;">
-                            {% for error in form.email.errors %}
-                            <p>{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    {{ form.email.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                    {{ form.email(class="form-control mt-0", placeholder="Email", id="emailInput") }}
+                    {% if form.email.errors %}
+                    <div class="text-danger" style="font-size: 10px;">
+                        {% for error in form.email.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
-
-                    <div class="mb-3">
-                        {{ form.bio.label(class="form-label mb-0") }}
-                        {{ form.bio(class="form-control mt-0", placeholder="Write anything about you…", id="bioInput", rows = "1") }}
-                    </div>
-
-                    <div class="mb-3 position-relative">
-                        {{ form.password_hash.label(class="form-label mb-0") }}<span style="color: red;">*</span>
-                        <div class="position-relative">
-                            {{ form.password_hash(class="form-control mt-0", placeholder="Password", id="passwordInput", style="padding-right: 2.5rem;") }}
-                            <span id="togglePassword"
-                            class="position-absolute end-0 top-0 mt-2 me-2" style="cursor: pointer;">
-                                <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    {{ form.bio.label(class="form-label mb-0") }}
+                    {{ form.bio(class="form-control mt-0", placeholder="Write anything about you…", id="bioInput", rows="1") }}
+                </div>
+                <div class="mb-3 position-relative">
+                    {{ form.password_hash.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                    <div class="position-relative">
+                        {{ form.password_hash(class="form-control mt-0", placeholder="Password", id="passwordInput", style="padding-right: 2.5rem;") }}
+                        <span id="togglePassword" class="position-absolute end-0 top-0 mt-2 me-2" style="cursor: pointer;">
+                            <i class="bi bi-eye-slash" id="toggleIcon"></i>
                         </span>
-                        </div>
-                        {% if form.password_hash.errors %}
-                        <div class="text-danger" style="font-size: 10px;">
-                            {% for error in form.password_hash.errors %}
-                            <p>{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
                     </div>
-
-                    <div class="mb-3 position-relative">
-                        {{ form.password_hash2.label(class="form-label mb-0") }}<span style="color: red;">*</span>
-                        <div class="position-relative">
-                            {{ form.password_hash2(class="form-control mt-0", placeholder="Confirm Password", id="confirmpasswordInput", style="padding-right: 2.5rem;") }}
-                            <span id="toggleConfirmPassword"
-                            class="position-absolute end-0 top-0 mt-2 me-2" style="cursor: pointer;">
-                                <i class="bi bi-eye-slash" id="toggleConfirmIcon"></i>
-                        </div>
-                        
-                        {% if form.password_hash2.errors %}
-                        <div class="text-danger" style="font-size: 10px;">
-                            {% for error in form.password_hash2.errors %}
-                            <p>{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
+                    {% if form.password_hash.errors %}
+                    <div class="text-danger" style="font-size: 10px;">
+                        {% for error in form.password_hash.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
-
-                    <div class="mb-3">
-                        {{ form.submit(class="btn btn-primary w-100", value="Sign Up", style="font-size: 14px") }}
+                    {% endif %}
+                </div>
+                <div class="mb-3 position-relative">
+                    {{ form.password_hash2.label(class="form-label mb-0") }}<span style="color: red;">*</span>
+                    <div class="position-relative">
+                        {{ form.password_hash2(class="form-control mt-0", placeholder="Confirm Password", id="confirmpasswordInput", style="padding-right: 2.5rem;") }}
+                        <span id="toggleConfirmPassword" class="position-absolute end-0 top-0 mt-2 me-2" style="cursor: pointer;">
+                            <i class="bi bi-eye-slash" id="toggleConfirmIcon"></i>
+                        </span>
                     </div>
-                </form>
-                <p class="text-center fw-normal mb-0" style="font-size: 14px;">Already have an account?
-                    <a href="{{ url_for('author.login') }}">Log in</a>
-                </p>
-            </div>
+                    {% if form.password_hash2.errors %}
+                    <div class="text-danger" style="font-size: 10px;">
+                        {% for error in form.password_hash2.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    {{ form.submit(class="btn btn-primary w-100", value="Sign Up", style="font-size: 14px") }}
+                </div>
+            </form>
+            <p class="text-center fw-normal mb-0" style="font-size: 14px;">Already have an account?
+                <a href="{{ url_for('author.login') }}">Log in</a>
+            </p>
         </div>
     </div>
 </div>
 <br>
-
-<!-- JavaScript for Placeholder Disappearing and Password Eye Toggle -->
-<script>
-    const togglePassword = document.getElementById('togglePassword');
-    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-    const passwordInput = document.getElementById('passwordInput');
-    const confirmPasswordInput = document.getElementById('confirmpasswordInput');
-    const toggleIcon = document.getElementById('toggleIcon');
-    const toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
-
-    // Toggle password visibility
-    togglePassword.addEventListener('click', function () {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        toggleIcon.classList.toggle('bi-eye');
-        toggleIcon.classList.toggle('bi-eye-slash');
-    });
-
-    toggleConfirmPassword.addEventListener('click', function () {
-        const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPasswordInput.setAttribute('type', type);
-        toggleConfirmIcon.classList.toggle('bi-eye');
-        toggleConfirmIcon.classList.toggle('bi-eye-slash');
-    });
-
-    // Function to handle placeholder visibility for any input
-    function handlePlaceholder(inputElement) {
-        inputElement.addEventListener('focus', function () {
-            this.setAttribute('data-placeholder', this.getAttribute('placeholder'));
-            this.setAttribute('placeholder', '');
-        });
-
-        inputElement.addEventListener('blur', function () {
-            if (this.value === '') {
-                this.setAttribute('placeholder', this.getAttribute('data-placeholder'));
-            }
-        });
-    }
-
-    // Apply placeholder handling to all relevant fields
-    handlePlaceholder(document.getElementById('nameInput'));
-    handlePlaceholder(document.getElementById('usernameInput'));
-    handlePlaceholder(document.getElementById('emailInput'));
-    handlePlaceholder(document.getElementById('bioInput'));
-    handlePlaceholder(passwordInput);
-    handlePlaceholder(confirmPasswordInput);
-
-    // Initialize and show the toasts with smooth animation and auto-dismiss after 5 seconds
-  var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-    var toastList = toastElList.map(function (toastEl) {
-        var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-        toast.show();  // Show the toast with fade-in effect
-        return toast;
-    });
-</script>
-
-<style>
-    .form-label {
-        font-size: 14px;
-    }
-    ::placeholder {
-        font-size: 14px;
-        color: #F4F6FB;
-    }
-</style>
-
 {% endblock %}

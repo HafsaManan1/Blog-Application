@@ -73,27 +73,6 @@
   </div>
 </div>
 
-<!-- Additional CSS -->
-<style>
-  .rounded-circle {
-    aspect-ratio: 1/1;
-  }
-
-  @media (max-width: 768px) { /* For tablets and smaller screens */
-    .pe-3 {
-      width: 170px; /* Set image container to 150px width */
-    }
-  }
-
-  @media (min-width: 769px) { /* For larger screens */
-    .pe-3 {
-      width: 250px; /* Set image container to 250px width */
-    }
-  }
-</style>
-
-
-
 <!-- Posts Section -->
 <div class="container my-4">
   <h4>Posts</h4><br>
@@ -152,15 +131,5 @@
     {% endfor %}
   </div>
 </div>
-
-<script>
-  // Initialize and show the toasts
-  var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-  var toastList = toastElList.map(function (toastEl) {
-    var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-    toast.show();
-    return toast;
-  });
-</script>
 
 {% endblock %}

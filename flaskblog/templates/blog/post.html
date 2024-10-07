@@ -50,14 +50,6 @@
 
 </div>
 
-<!-- Add custom CSS for responsive images -->
-<style>
-  .content img {
-    max-width: 100%;
-    height: auto;
-  }
-</style>
-
 <div class="container my-4">
   <!-- Comment Form -->
   {% if current_user.is_authenticated %}
@@ -123,14 +115,5 @@
     </div>
   </div>
 </div>
-
-<script>
-  var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-  var toastList = toastElList.map(function (toastEl) {
-    var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-    toast.show();  // Show the toast with fade-in effect
-    return toast;
-  });
-</script>
 
 {% endblock %}

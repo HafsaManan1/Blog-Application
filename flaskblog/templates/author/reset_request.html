@@ -36,30 +36,7 @@
     </div>
 </div>
 
-<!-- Additional CSS -->
-<style>
-    .form-label {
-        font-size: 14px;
-    }
-
-    ::placeholder {
-        font-size: 14px;
-        color: #F4F6FB;
-    }
-
-    .custom-info {
-        background-color: #0a4275;
-        color: white;
-    }
-
-    @media (max-width: 576px) {
-        .card {
-            padding: 2rem; /* More padding for small devices */
-        }
-    }
-</style>
-
-<script>
+<!-- <script>
     // Function to handle placeholder visibility for the email input
     function handlePlaceholder(inputElement) {
         inputElement.addEventListener('focus', function () {
@@ -78,13 +55,6 @@
     const emailInput = document.getElementById('emailInput');
     handlePlaceholder(emailInput);
 
-    // Initialize and show the toasts with smooth animation and auto-dismiss after 5 seconds
-    var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-    var toastList = toastElList.map(function (toastEl) {
-        var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-        toast.show();  // Show the toast with fade-in effect
-        return toast;
-    });
-</script>
+</script> -->
 
 {% endblock %}

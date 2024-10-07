@@ -42,16 +42,4 @@
   {{ckeditor.config(name='content')}}
   </div>
   
-
-
-
-<script>
-  // Initialize and show the toasts with smooth animation and auto-dismiss after 5 seconds
-  var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-    var toastList = toastElList.map(function (toastEl) {
-        var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-        toast.show();  // Show the toast with fade-in effect
-        return toast;
-    });
-</script>
 {% endblock %}

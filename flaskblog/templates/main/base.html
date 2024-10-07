@@ -24,11 +24,11 @@
 <body>
    {% include 'main/toasts.html' %}
    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-   integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-   crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-   integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-   crossorigin="anonymous"></script>
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"></script>
    <!-- Navbar here -->
    {% if show_navbar %}
    {% include 'main/navbar.html' %}
@@ -39,55 +39,10 @@
 
    <!-- Optional JavaScript -->
    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
+   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 {% if show_footer %}
 {% include 'main/footer.html' %}
 {% endif %}
 <!-- End of .container -->
-<style>
-   body {
-      background-color: white;
-      color: black;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      margin: 0;
-   }
-
-   footer {
-      text-align: center;
-      margin-top: auto;
-   }
-
-   html,
-   body {
-      height: 100%;
-   }
-
-   .carousel {
-      flex: 1;
-      /* Allow the carousel to grow and take remaining space */
-   }
-   .form-control {
-      font-size: 14px;
-  }
-  ::placeholder {
-   font-size: 14px;
-   color: #F4F6FB;
-}
-.form-label {
-   font-size: 14px;
-}
-</style>
-<script>
-       // Initialize and show the toasts with smooth animation and auto-dismiss after 5 seconds
-       var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-       var toastList = toastElList.map(function (toastEl) {
-           var toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 5000 });
-           toast.show();  // Show the toast with fade-in effect
-           return toast;
-       });
-</script>
-
 </html>
